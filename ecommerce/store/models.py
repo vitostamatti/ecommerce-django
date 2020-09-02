@@ -10,13 +10,10 @@ class Customer(models.Model):
     name = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
 
-    def __str__(self):
-        return self.name
-
 
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=7, decimal_places=2)
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
 
@@ -56,7 +53,7 @@ class Order(models.Model):
     def get_cart_total(self):
         order_items = self.orderitem_set.all()
         total = sum([item.get_total for item in order_items])
-        return total
+        return float(total)
 
     @property
     def get_cart_items(self):
